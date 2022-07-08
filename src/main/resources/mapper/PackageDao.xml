@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zuobiaoxi.dao.PackageDao">
+
+    <resultMap type="com.zuobiaoxi.entity.Package" id="PackageMap">
+        <result property="id" column="id" jdbcType="VARCHAR"/>
+        <result property="package_name" column="package_name" jdbcType="VARCHAR"/>
+        <result property="parent" column="parent" jdbcType="VARCHAR"/>
+        <result property="children" column="children" jdbcType="VARCHAR"/>
+        <result property="manageGroup" column="manage_group" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="PackageMap">
+        select id,
+               package,
+               parent,
+               children,
+               manage_group
+        from package
+        where id = #{id}
+    </select>
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from package
+        <where>
+            <if test="id != null and id != ''">
+                and id = #{id}
+            </if>
+            <if test="package != null and package != ''">
+                and package = #{package}
+            </if>
+            <if test="parent != null and parent != ''">
+                and parent = #{parent}
+            </if>
+            <if test="children != null and children != ''">
+                and children = #{children}
+            </if>
+            <if test="manageGroup != null and manageGroup != ''">
+                and manage_group = #{manageGroup}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into package(package, parent, children, manage_group)
+        values (#{package}, #{parent}, #{children}, #{manageGroup})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into package(package, parent, children, manage_group)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.package}, #{entity.parent}, #{entity.children}, #{entity.manageGroup})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into package(package, parent, children, manage_group)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.package}, #{entity.parent}, #{entity.children}, #{entity.manageGroup})
+        </foreach>
+        on duplicate key update
+        package = values(package),
+        parent = values(parent),
+        children = values(children),
+        manage_group = values(manage_group)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update package
+        <set>
+            <if test="package != null and package != ''">
+                package = #{package},
+            </if>
+            <if test="parent != null and parent != ''">
+                parent = #{parent},
+            </if>
+            <if test="children != null and children != ''">
+                children = #{children},
+            </if>
+            <if test="manageGroup != null and manageGroup != ''">
+                manage_group = #{manageGroup},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete
+        from package
+        where id = #{id}
+    </delete>
+
+</mapper>
+

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zuobiaoxi.dao.UserGroupDao">
+
+    <resultMap type="com.zuobiaoxi.entity.UserGroup" id="UserGroupMap">
+        <result property="id" column="id" jdbcType="VARCHAR"/>
+        <result property="groupName" column="group_name" jdbcType="VARCHAR"/>
+        <result property="Priviledge" column="_priviledge" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="UserGroupMap">
+        select id,
+               group_name,
+               _priviledge
+                      from user_group where id = #{id}
+    </select>
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from user_group
+        <where>
+            <if test="id != null and id != ''">
+                and id = #{id}
+            </if>
+            <if test="groupName != null and groupName != ''">
+                and group_name = #{groupName}
+            </if>
+            <if test="Priviledge != null and Priviledge != ''">
+                and _priviledge = #{Priviledge}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into user_group(group_name, _priviledge)
+        values (#{groupName}, #{Priviledge})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into user_group(group_name, _priviledge)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.groupName}, #{entity.Priviledge})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into user_group(group_name, _priviledge)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.groupName}, #{entity.Priviledge})
+        </foreach>
+        on duplicate key update
+        group_name = values(group_name),
+        _priviledge = values(_priviledge)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update user_group
+        <set>
+            <if test="groupName != null and groupName != ''">
+                group_name = #{groupName},
+            </if>
+            <if test="Priviledge != null and Priviledge != ''">
+                _priviledge = #{Priviledge},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete
+        from user_group
+        where id = #{id}
+    </delete>
+
+</mapper>
+

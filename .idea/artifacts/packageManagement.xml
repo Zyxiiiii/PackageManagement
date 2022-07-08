@@ -1,10 +1,11 @@
 <component name="ArtifactManager">
-  <artifact type="exploded-war" name="Archetype">
-    <output-path>$PROJECT_DIR$/out/artifacts/Archetype</output-path>
+  <artifact type="exploded-war" name="packageManagement">
+    <output-path>$PROJECT_DIR$/out/artifacts/packageManagement</output-path>
     <root id="root">
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">
           <element id="module-output" name="web" />
+          <element id="module-output" name="PackageManagement" />
         </element>
         <element id="directory" name="lib">
           <element id="library" level="project" name="Maven: mysql:mysql-connector-java:8.0.29" />
@@ -40,6 +41,8 @@
         </element>
       </element>
       <element id="javaee-facet-resources" facet="web/web/Web" />
+      <element id="javaee-facet-resources" facet="PackageManagement/web/Web2" />
+      <element id="javaee-facet-resources" facet="PackageManagement/web/Web" />
     </root>
   </artifact>
 </component>

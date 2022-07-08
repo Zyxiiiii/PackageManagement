@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zuobiaoxi.dao.VariableDao">
+
+    <resultMap type="com.zuobiaoxi.entity.Variable" id="VariableMap">
+        <result property="id" column="id" jdbcType="VARCHAR"/>
+        <result property="belongClass" column="belong_class" jdbcType="VARCHAR"/>
+        <result property="accessLevel" column="access_level" jdbcType="VARCHAR"/>
+        <result property="isStatic" column="is_static" jdbcType="INTEGER"/>
+        <result property="dataType" column="data_type" jdbcType="VARCHAR"/>
+        <result property="comment" column="comment" jdbcType="VARCHAR"/>
+        <result property="isFinal" column="is_final" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="VariableMap">
+        select
+          id, belong_class, access_level, is_static, data_type, comment, is_final
+        from variable
+        where id = #{id}
+    </select>
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from variable
+        <where>
+            <if test="id != null and id != ''">
+                and id = #{id}
+            </if>
+            <if test="belongClass != null and belongClass != ''">
+                and belong_class = #{belongClass}
+            </if>
+            <if test="accessLevel != null and accessLevel != ''">
+                and access_level = #{accessLevel}
+            </if>
+            <if test="isStatic != null">
+                and is_static = #{isStatic}
+            </if>
+            <if test="dataType != null and dataType != ''">
+                and data_type = #{dataType}
+            </if>
+            <if test="comment != null and comment != ''">
+                and comment = #{comment}
+            </if>
+            <if test="isFinal != null">
+                and is_final = #{isFinal}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into variable(belong_class, access_level, is_static, data_type, comment, is_final)
+        values (#{belongClass}, #{accessLevel}, #{isStatic}, #{dataType}, #{comment}, #{isFinal})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into variable(belong_class, access_level, is_static, data_type, comment, is_final)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+        (#{entity.belongClass}, #{entity.accessLevel}, #{entity.isStatic}, #{entity.dataType}, #{entity.comment}, #{entity.isFinal})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into variable(belong_class, access_level, is_static, data_type, comment, is_final)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.belongClass}, #{entity.accessLevel}, #{entity.isStatic}, #{entity.dataType}, #{entity.comment}, #{entity.isFinal})
+        </foreach>
+        on duplicate key update
+        belong_class = values(belong_class),
+        access_level = values(access_level),
+        is_static = values(is_static),
+        data_type = values(data_type),
+        comment = values(comment),
+        is_final = values(is_final)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update variable
+        <set>
+            <if test="belongClass != null and belongClass != ''">
+                belong_class = #{belongClass},
+            </if>
+            <if test="accessLevel != null and accessLevel != ''">
+                access_level = #{accessLevel},
+            </if>
+            <if test="isStatic != null">
+                is_static = #{isStatic},
+            </if>
+            <if test="dataType != null and dataType != ''">
+                data_type = #{dataType},
+            </if>
+            <if test="comment != null and comment != ''">
+                comment = #{comment},
+            </if>
+            <if test="isFinal != null">
+                is_final = #{isFinal},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from variable where id = #{id}
+    </delete>
+
+</mapper>
+

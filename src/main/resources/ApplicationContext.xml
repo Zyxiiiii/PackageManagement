@@ -23,7 +23,7 @@
         <property name="user" value="${JDBC.user}"/>
         <property name="password" value="${JDBC.password}"/>
         <property name="jdbcUrl" value="${JDBC.url}"/>
-        <property name="driverClass" value="${JDBC.url}"/>
+        <property name="driverClass" value="${JDBC.driver}"/>
     </bean>
 
     <bean class="org.mybatis.spring.SqlSessionFactoryBean" id="sessionFactory">
