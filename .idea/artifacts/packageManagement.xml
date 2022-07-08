@@ -38,10 +38,9 @@
           <element id="library" level="project" name="Maven: org.mybatis:mybatis:3.5.10" />
           <element id="library" level="project" name="Maven: org.mybatis:mybatis-spring:2.0.7" />
           <element id="library" level="project" name="Maven: org.springframework:spring-websocket:5.3.20" />
+          <element id="library" level="project" name="Maven: io.jsonwebtoken:jjwt-api:0.11.5" />
         </element>
       </element>
-      <element id="javaee-facet-resources" facet="web/web/Web" />
-      <element id="javaee-facet-resources" facet="PackageManagement/web/Web2" />
       <element id="javaee-facet-resources" facet="PackageManagement/web/Web" />
     </root>
   </artifact>
