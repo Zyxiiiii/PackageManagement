@@ -21,6 +21,15 @@ public interface AccountDao {
      */
     Account queryById(String id);
 
+
+    /**
+     * 通过用户名查询单条数据
+     *
+     * @param username 用户名
+     * @return 实例对象
+     */
+    Account queryByUsername(String username);
+
     /**
      * 统计总行数
      *

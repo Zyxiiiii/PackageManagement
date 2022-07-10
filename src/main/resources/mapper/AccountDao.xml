@@ -43,6 +43,15 @@
             </if>
         </where>
     </select>
+    <select id="queryByUsername" resultType="com.zuobiaoxi.entity.Account">
+        select id,
+               username,
+               nickname,
+               password,
+               user_group
+        from account
+        where username = #{username}
+    </select>
 
     <!--新增所有列-->
     <insert id="insert" keyProperty="id" useGeneratedKeys="true">

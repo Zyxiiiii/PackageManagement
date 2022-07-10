@@ -3,6 +3,7 @@ package com.zuobiaoxi.entity;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.zuobiaoxi._enum.AccessLevel;
 import lombok.Data;
+import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
 
@@ -13,6 +14,7 @@ import java.io.Serializable;
  * @since 2022-07-08 09:51:37
  */
 @Data
+@Component
 public class Method implements Serializable {
     private static final long serialVersionUID = -66759213984811876L;
 
