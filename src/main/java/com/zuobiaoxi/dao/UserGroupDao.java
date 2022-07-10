@@ -21,6 +21,16 @@ public interface UserGroupDao {
      */
     UserGroup queryById(String id);
 
+
+    /**
+     * query obj by condition
+     *
+     * @param data the effect payload
+     * @param condition the condition
+     * @return the instance of UserGroup
+     */
+    UserGroup queryByCondition(String data, String condition);
+
     /**
      * 统计总行数
      *

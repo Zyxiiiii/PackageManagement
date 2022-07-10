@@ -4,6 +4,9 @@ import io.jsonwebtoken.security.SignatureException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
+import org.slf4j.Logger;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.util.Map;
 
@@ -17,6 +20,8 @@ public class TokenBuilderTest {
 
     @Test
     public void JwtTest(){
+        ApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:ApplicationContext.xml");
+        Logger logger = (Logger) applicationContext.getBean("test-logger");
         // 构造token
         String jwt1 = TokenBuilder.createJwt("user1", "user1");
         String jwt2 = TokenBuilder.createJwt("user2", "user2");
@@ -58,6 +63,6 @@ public class TokenBuilderTest {
         Assertions.assertEquals("user6", stringObjectMap6.get("userId"));
         Assertions.assertEquals("user6", stringObjectMap6.get("username"));
 
-        System.out.println("throw a expected exception: " + Assertions.assertThrowsExactly(SignatureException.class, () -> TokenBuilder.parseJwt(jwt1.substring(0, jwt1.length() - 4))).getMessage());
+        logger.info("throw a expected exception: " + Assertions.assertThrowsExactly(SignatureException.class, () -> TokenBuilder.parseJwt(jwt1.substring(0, jwt1.length() - 4))).getMessage());
     }
 }

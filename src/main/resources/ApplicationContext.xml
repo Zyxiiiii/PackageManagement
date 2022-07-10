@@ -17,6 +17,14 @@
 
     <mvc:annotation-driven/>
 
+    <bean class="org.slf4j.LoggerFactory" factory-method="getLogger" id="logger">
+        <constructor-arg name="name" value="logger"/>
+    </bean>
+
+    <bean class="org.slf4j.LoggerFactory" factory-method="getLogger" id="test-logger">
+        <constructor-arg name="name" value="test-logger"/>
+    </bean>
+
     <bean class="com.fasterxml.jackson.databind.ObjectMapper" id="objectMapper"/>
 
     <bean class="com.mchange.v2.c3p0.ComboPooledDataSource" id="dataSource">
@@ -30,6 +38,10 @@
         <property name="configLocation" value="classpath:SqlMapperConfig.xml"/>
         <property name="dataSource" ref="dataSource"/>
         <property name="mapperLocations" value="classpath:mapper/*.xml"/>
+    </bean>
+
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer" id="configurer">
+        <property name="basePackage" value="com.zuobiaoxi.dao"/>
     </bean>
 
 

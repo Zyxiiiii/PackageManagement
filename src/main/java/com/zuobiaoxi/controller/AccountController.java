@@ -3,9 +3,11 @@ package com.zuobiaoxi.controller;
 import com.zuobiaoxi.exception.BadRequestException;
 import com.zuobiaoxi.exception.NullRequestException;
 import com.zuobiaoxi.request.AccountRequest;
+import com.zuobiaoxi.response.LoginResponse;
 import com.zuobiaoxi.service.AccountService;
 import com.zuobiaoxi.utils.CheckCodeUtil;
 import org.slf4j.Logger;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,7 +32,7 @@ public class AccountController {
     @Resource
     private Logger logger;
 
-    @GetMapping("/checkCode")
+    @GetMapping(value = "/checkCode", produces = "image/jpeg")
     public void checkCode(HttpServletResponse response) {
         try {
             CheckCodeUtil.outputVerifyImage(300, 100, response.getOutputStream(), 4);
@@ -40,8 +42,7 @@ public class AccountController {
     }
 
     @GetMapping(produces = "application/json;charset=UTF-8")
-    @ResponseBody
-    public String login(AccountRequest accountRequest) throws AccessDeniedException {
+    public ResponseEntity<LoginResponse> login(AccountRequest accountRequest) throws AccessDeniedException {
         AccountRequest request = Optional.ofNullable(accountRequest).orElseThrow(NullRequestException::new);
         if (request.getUsername() == null || request.getPassword() == null) {
             throw new BadRequestException();

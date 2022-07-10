@@ -5,7 +5,7 @@
     <resultMap type="com.zuobiaoxi.entity.UserGroup" id="UserGroupMap">
         <result property="id" column="id" jdbcType="VARCHAR"/>
         <result property="groupName" column="group_name" jdbcType="VARCHAR"/>
-        <result property="Priviledge" column="_priviledge" jdbcType="VARCHAR"/>
+        <result property="privilege" column="_privilege" jdbcType="VARCHAR"/>
     </resultMap>
 
     <!--查询单个-->
@@ -13,7 +13,27 @@
         select id,
                group_name,
                _priviledge
-                      from user_group where id = #{id}
+        from user_group
+        where id = #{id}
+    </select>
+
+    <!-- query by condition -->
+    <select id="queryByCondition" resultMap="UserGroupMap">
+        select id,
+        group_name,
+        _priviledge
+        from user_group
+        <where>
+            <if test="condition = 'id'">
+                id = #{data}
+            </if>
+            <if test="condition = 'group_name'">
+                group_name = #{data}
+            </if>
+            <if test="condition = '_privilege'">
+                _privilege = #{data}
+            </if>
+        </where>
     </select>
 
     <!--统计总行数-->
